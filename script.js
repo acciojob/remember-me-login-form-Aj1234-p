@@ -6,9 +6,6 @@ let checkBox = document.querySelector('#checkbox');
 let loginButton = document.querySelector('#existing');
 let formContainer = document.querySelector('#form-container');
 
-
-
-
 let newUser, newPassword, userDetails = [];
 
 if(JSON.parse(localStorage.getItem("User Details "))!==null){
@@ -33,10 +30,14 @@ submitButton.addEventListener('click',(e)=>{
        }
        if(!isExist){
         console.log("user first time");
-         userDetails.push({name: newUser, pass:newPassword})
-         localStorage.setItem("User Details ",JSON.stringify(userDetails));
+        if(JSON.parse(localStorage.getItem("User Details "))!==null){
+          userDetails = JSON.parse(localStorage.getItem("User Details "));
+        }
+        userDetails.push({name: newUser, pass:newPassword})
+        localStorage.setItem("User Details ",JSON.stringify(userDetails));
        }
-      } else{
+    } 
+     else{
         console.log("when check box not to be checked");
         if(JSON.parse(localStorage.getItem("User Details "))!==null){
         let fetchDetails = JSON.parse(localStorage.getItem("User Details "));
@@ -47,12 +48,13 @@ submitButton.addEventListener('click',(e)=>{
         localStorage.setItem("User Details ",JSON.stringify(updateDetails));
        }
    }
-})
+});
 
 
 loginButton.addEventListener('click',(e)=>{
-   e.preventDefault();
+  e.preventDefault();
   let savedName = JSON.parse(localStorage.getItem("User Details "));
   console.log("Saved name",savedName);
   alert(`Logged in as ${savedName[savedName.length-1].name}`);
-})
+  console.log("login button")
+});
