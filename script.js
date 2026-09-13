@@ -51,6 +51,8 @@ submitButton.addEventListener('click',(e)=>{
 
 
 loginButton.addEventListener('click',(e)=>{
-  alert(`Logged in as ${newUser}`);
-  console.log("login button")
+   e.preventDefault();
+  let savedName = JSON.parse(localStorage.getItem("User Details "));
+  console.log("Saved name",savedName);
+  alert(`Logged in as ${savedName[savedName.length-1].name}`);
 })
