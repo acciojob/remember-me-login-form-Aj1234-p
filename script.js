@@ -8,7 +8,7 @@ let formContainer = document.querySelector('#form-container');
 
 let newUser, newPassword, userDetails = [];
 
-if(JSON.parse(localStorage.getItem("User Details "))!==null){
+if(JSON.parse(localStorage.getItem("User Details"))!==null){
   loginButton.style.display = 'inline';
 }
 submitButton.addEventListener('click',(e)=>{
@@ -30,11 +30,11 @@ submitButton.addEventListener('click',(e)=>{
        }
        if(!isExist){
         console.log("user first time");
-        if(JSON.parse(localStorage.getItem("User Details "))!==null){
-          userDetails = JSON.parse(localStorage.getItem("User Details "));
+        if(JSON.parse(localStorage.getItem("User Details"))!==null){
+          userDetails = JSON.parse(localStorage.getItem("User Details"));
         }
         userDetails.push({name: newUser, pass:newPassword})
-        localStorage.setItem("User Details ",JSON.stringify(userDetails));
+        localStorage.setItem("User Details",JSON.stringify(userDetails));
        }
     } 
      else{
@@ -43,7 +43,7 @@ submitButton.addEventListener('click',(e)=>{
         let fetchDetails = JSON.parse(localStorage.getItem("User Details "));
         console.log("fetch details ",fetchDetails);
         let updateDetails = fetchDetails.filter((user)=> user.name!==newUser && user.pass!==newPassword);
-        console.log("update details ",updateDetails);
+        console.log("update details",updateDetails);
         localStorage.clear();
         localStorage.setItem("User Details ",JSON.stringify(updateDetails));
        }
