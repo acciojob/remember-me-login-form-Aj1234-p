@@ -4,12 +4,19 @@ let passWord = document.querySelector('#password');
 let checkBox = document.querySelector('#checkbox');
 let loginButton = document.querySelector('#existing');
 let formContainer = document.querySelector('#form-container');
+let body = document.querySelector('body');
 
-let newUser, newPassword, userDetails = [];
+let newUser, newPassword;
 
-if(JSON.parse(localStorage.getItem("User Details"))!==null){
-  loginButton.style.display = 'inline';
+function afterCredentialRelod(){
+  console.log("Here relod");
+ body.addEventListener('DOMContentLoaded',(e)=>{
+    if(JSON.parse(localStorage.getItem("User Details"))!==null){
+      loginButton.style.display = 'inline';
+    }   
+  });
 }
+
 submitButton.addEventListener('click',(e)=>{
   e.preventDefault();
   newUser = userName.value, newPassword = passWord.value;
@@ -17,9 +24,9 @@ submitButton.addEventListener('click',(e)=>{
   console.log("password ",newPassword);
    alert(`Logged in as ${newUser}`);
    if(checkBox.checked){
+     let existDetails = JSON.parse(localStorage.getItem("User Details")) || [];
        console.log("when check box is checked");
        let isExist = false;
-       let existDetails = JSON.parse(localStorage.getItem("User Details")) || [];
        for(let i=0;i<existDetails.length;i++){
         let user = existDetails[i];
         if(user.name===newUser && user.pass === newPassword){
@@ -29,22 +36,14 @@ submitButton.addEventListener('click',(e)=>{
        }
        if(!isExist){
         console.log("user first time");
-        if(JSON.parse(localStorage.getItem("User Details"))!==null){
-          userDetails = JSON.parse(localStorage.getItem("User Details"));
-        }
-        userDetails.push({name: newUser, pass:newPassword})
-        localStorage.setItem("User Details",JSON.stringify(userDetails));
+        existDetails.push({name: newUser, pass:newPassword})
+        localStorage.setItem("User Details",JSON.stringify(existDetails));
+        console.log("Call after storing credentials");
+        afterCredentialRelod();
        }
     } 
      else{
-        console.log("when check box not to be checked");
-        if(JSON.parse(localStorage.getItem("User Details"))!==null){
-        let fetchDetails = JSON.parse(localStorage.getItem("User Details"));
-        console.log("fetch details ",fetchDetails);
-        let updateDetails = fetchDetails.filter((user)=> user.name!==newUser && user.pass!==newPassword);
-        console.log("update details",updateDetails);
         localStorage.clear();
-        localStorage.setItem("User Details",JSON.stringify(updateDetails));
        }
    }
 });
@@ -57,3 +56,5 @@ loginButton.addEventListener('click',(e)=>{
   alert(`Logged in as ${savedName[savedName.length-1].name}`);
   console.log("login button")
 });
+
+afterCredentialRelod();
