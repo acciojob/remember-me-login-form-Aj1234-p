@@ -44,7 +44,7 @@ submitButton.addEventListener('click',(e)=>{
         let updateDetails = fetchDetails.filter((user)=> user.name!==newUser && user.pass!==newPassword);
         console.log("update details",updateDetails);
         localStorage.clear();
-        localStorage.setItem("User Details ",JSON.stringify(updateDetails));
+        localStorage.setItem("User Details",JSON.stringify(updateDetails));
        }
    }
 });
