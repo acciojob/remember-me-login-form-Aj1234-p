@@ -4,21 +4,13 @@ let passWord = document.querySelector('#password');
 let checkBox = document.querySelector('#checkbox');
 let loginButton = document.querySelector('#existing');
 let formContainer = document.querySelector('#form-container');
-let body = document.querySelector('body');
+let form = document.querySelector('form');
 
 let newUser, newPassword;
-
-function afterCredentialRelod(){
-  console.log("Here relod");
- body.addEventListener('DOMContentLoaded',(e)=>{
-    if(JSON.parse(localStorage.getItem("User Details"))!==null){
-      loginButton.style.display = 'inline';
-    }   
-  });
+if(JSON.parse(localStorage.getItem("User Details"))!==null){
+  loginButton.style.display = 'inline';
 }
-
-submitButton.addEventListener('click',(e)=>{
-  e.preventDefault();
+form.addEventListener('submit',(e)=>{
   newUser = userName.value, newPassword = passWord.value;
   console.log("username ",newUser);
   console.log("password ",newPassword);
@@ -38,13 +30,10 @@ submitButton.addEventListener('click',(e)=>{
         console.log("user first time");
         existDetails.push({name: newUser, pass:newPassword})
         localStorage.setItem("User Details",JSON.stringify(existDetails));
-        console.log("Call after storing credentials");
-        afterCredentialRelod();
        }
     } 
      else{
         localStorage.clear();
-       }
    }
 });
 
@@ -56,5 +45,3 @@ loginButton.addEventListener('click',(e)=>{
   alert(`Logged in as ${savedName[savedName.length-1].name}`);
   console.log("login button")
 });
-
-afterCredentialRelod();
