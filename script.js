@@ -44,7 +44,13 @@ form.addEventListener('submit',(e)=>{
 
 loginButton.addEventListener('click',(e)=>{
   e.preventDefault();
-  alert(`Logged in as ${userName.value}`);
+ let savedUsername;
+  userDetails.forEach((user)=>{
+	  if(user.name===userName.value && user.password ===passWord){
+	     savedUsername = userName.value;	  
+	  }
+  })
+  alert(`Logged in as ${savedUsername}`);
 });
 
 loadingFromStorage();
