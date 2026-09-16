@@ -44,10 +44,7 @@ form.addEventListener('submit',(e)=>{
 
 loginButton.addEventListener('click',(e)=>{
   e.preventDefault();
-  if(JSON.parse(localStorage.getItem(USER_KEY))===null) return;
-  let savedName = JSON.parse(localStorage.getItem(USER_KEY));
-  if(!savedName) return;
-  alert(`Logged in as ${savedName[savedName.length-1].name}`);
+  alert(`Logged in as ${userName.value}`);
 });
 
 loadingFromStorage();
