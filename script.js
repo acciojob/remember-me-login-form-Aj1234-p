@@ -1,54 +1,51 @@
-let submitButton = document.querySelector('#submit');
-let userName = document.querySelector('#username');
-let passWord = document.querySelector('#password');
-let checkBox = document.querySelector('#checkbox');
-let loginButton = document.querySelector('#existing');
-let formContainer = document.querySelector('#form-container');
-let form = document.querySelector('form');
-let userDetails;
+const submitButton = document.querySelector('#submit');
+const userName = document.querySelector('#username');
+const passWord = document.querySelector('#password');
+const checkBox = document.querySelector('#checkbox');
+const loginButton = document.querySelector('#existing');
+const form = document.querySelector('form');
 
-let username, userpassword;
-const USER_KEY = "User Details";
+const USERNAME_KEY = 'username';
+const PASSWORD_KEY = 'password';
 
-function loadingFromStorage(){
-  try{
-    const stored = localStorage.getItem(USER_KEY);
-    userDetails = stored ? JSON.parse(stored) : [];
-    if(stored && userDetails.length > 0)
-      loginButton.style.display = 'inline';
+function showExistingButtonIfSaved() {
+  const savedUser = localStorage.getItem(USERNAME_KEY);
+  const savedPass = localStorage.getItem(PASSWORD_KEY);
+
+  if (savedUser && savedPass) {
+    loginButton.style.display = 'inline';
+  } else {
+    loginButton.style.display = 'none';
   }
-  catch(err){
-    console.error("Cannot fetch the data from local storage");
-    userDetails = [];
-  }
-}
-
-function setDataLocal(){
-  localStorage.setItem(USER_KEY, JSON.stringify(userDetails));
 }
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  username = userName.value, userpassword = passWord.value;
+
+  const username = userName.value;
+  const password = passWord.value;
+
   alert(`Logged in as ${username}`);
-  if(checkBox.checked){
-    userDetails.push({name: username, password: userpassword});
-    setDataLocal();
-    loadingFromStorage();
+
+  if (checkBox.checked) {
+    localStorage.setItem(USERNAME_KEY, username);
+    localStorage.setItem(PASSWORD_KEY, password);
+  } else {
+    // This is the part that was missing
+    localStorage.removeItem(USERNAME_KEY);
+    localStorage.removeItem(PASSWORD_KEY);
   }
+
+  showExistingButtonIfSaved();
 });
 
 loginButton.addEventListener('click', (e) => {
   e.preventDefault();
 
-  if (!userDetails || userDetails.length === 0) {
-    alert("No saved user found.");
-    return;
+  const savedUser = localStorage.getItem(USERNAME_KEY);
+  if (savedUser) {
+    alert(`Logged in as ${savedUser}`);
   }
-
-  // Log in directly with stored credentials — do NOT compare to userName.value/passWord.value
-  const savedUser = userDetails[userDetails.length - 1];
-  alert(`Logged in as ${savedUser.name}`);
 });
 
-loadingFromStorage();
+showExistingButtonIfSaved();
